@@ -1,0 +1,67 @@
+---
+title: "Lab_4"
+output: html_document
+date: "2024-05-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+```{r}
+library(readr)
+data<-read.csv('C:/Users/PC/OneDrive - Universidad EAFIT/Semestre 5/Stastistics/Lab 4/IceCreamSalesTemperatures.csv')
+ice<-data[1:6,]
+##Gráfico de dispersión
+plot(data$Temperature, data$Ice.Cream.Profits)
+```
+Lo más representativo es que hay una relación lineal entre la temperatura y las ganancias.
+##Punto 2
+
+```{r}
+(corre_coeff<-cor(data$Temperature, data$Ice.Cream.Profits))
+(test<-cor.test(data$Temperature, data$Ice.Cream.Profits)$p.value)
+if (test<0.05){
+  print("Se rechaza la hipótesis nula de que el coeficiente de correlación es cero.")
+}else{
+  print("Se acepta la hipótesis nula de que el coeficiente de correlación es cero.")
+}
+```
+
+##Punto 3
+```{r}
+nume<-sum((data$Temperature-mean(data$Temperature))*(data$Ice.Cream.Profits-mean(data$Ice.Cream.Profits)))
+deno<-sum((data$Temperature-mean(data$Temperature))^2)
+b1_sl=nume/deno;b1_sl
+b0_int=mean(data$Ice.Cream.Profits)-b1*mean(data$Temperature);b0_int
+```
+##Punto 4
+```{r}
+model<-lm(data$Ice.Cream.Profits ~ data$Temperature)
+(b0_lm=summary(model)$coefficients[1])
+(b1_lm=summary(model)$coefficients[2])
+vari<-summary(model)$sigma^2
+```
+La variación indica que el error (la diferencia entre el valor estimado y el real) se encuentra bastante concentrado, lo cual reduce la cantidad de error y aumenta la precisión de las estimaciones del modelo lineal.
