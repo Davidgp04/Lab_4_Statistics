@@ -65,3 +65,68 @@ model<-lm(data$Ice.Cream.Profits ~ data$Temperature)
 vari<-summary(model)$sigma^2
 ```
 La variación indica que el error (la diferencia entre el valor estimado y el real) se encuentra bastante concentrado, lo cual reduce la cantidad de error y aumenta la precisión de las estimaciones del modelo lineal.
+
+##Punto 5
+Coeficiente de determinación
+```{r}
+aov(data$Ice.Cream.Profits~data$Temperature)
+(R1=90918/(90918+2137.97))
+```
+El 97.77% de la varianza total de las ganancias puede ser explicada en términos de la variación de la temperatura.
+
+Coeficiente de determinación ajustado
+```{r}
+(R2=1-((1-R1)*(365-1))/(365-1-1))
+```
+El coeficiente de variación ajustado, es un coeficiente más preciso puesto que toma en cuenta otras variables como el número de casos y el número de variables independiente, en este caso.
+El 97.69% de la varianza de las ganancias puede ser explicada en términos de la variación de la temperatura.
+
+
+##Punto 6
+Tenemos que el coeficiente de correlación es 0.988 y el coeficiente de determinación es 0.977, por un lado $R^2$ indica que la varianza de la temperatura explica en un 0.977 la varianza de las ganancias, un valor alto significa que es un buen predictor, luego el $r$ confirma esa relación, pues muestra como esas dos variables tienen una fuerte relación lineal, es decir que las ganancias pueden explicarse en términos de la temperatura.
+
+##Problema 7
+###P10
+```{r}
+info<-matrix(nrow=5,ncol=2)
+info[1,1]<-quantile(data$Temperature,0.1)
+p10<-data[data$Temperature<=info[1,1],]
+plot(p10$Temperature,p10$Ice.Cream.Profits)
+(info[1,2]<-sum(p10$Ice.Cream.Profits))
+```
+###P35
+```{r}
+info[2,1]<-quantile(data$Temperature,0.35)
+p35<-data[data$Temperature<=info[2,1],]
+plot(p35$Temperature,p35$Ice.Cream.Profits)
+(info[2,2]<-sum(p35$Ice.Cream.Profits))
+```
+###P50
+```{r}
+info[3,1]<-quantile(data$Temperature,0.5)
+p50<-data[data$Temperature<=info[3,1],]
+plot(p50$Temperature,p50$Ice.Cream.Profits)
+(info[3,2]<-sum(p50$Ice.Cream.Profits))
+```
+###P80
+```{r}
+info[4,1]<-quantile(data$Temperature,0.8)
+p80<-data[data$Temperature<=info[4,1],]
+plot(p80$Temperature,p80$Ice.Cream.Profits)
+(info[4,2]<-sum(p80$Ice.Cream.Profits))
+```
+###P95
+```{r}
+info[5,1]<-quantile(data$Temperature,0.95)
+p95<-data[data$Temperature<=info[5,1],]
+plot(p95$Temperature,p95$Ice.Cream.Profits)
+(info[5,2]<-sum(p95$Ice.Cream.Profits))
+```
+```{r}
+
+df<-as.data.frame(info)
+colnames(df)<-c("Temperature", "Profits")
+rownames(df)<-c("P10", "P35","P50","P80","P95")
+df
+plot(info, type="o", xlab="Temperature", ylab="Profits", main="Profits in terms of Temperature")
+```
